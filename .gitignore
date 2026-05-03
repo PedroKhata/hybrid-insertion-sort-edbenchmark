@@ -1,0 +1,48 @@
+# ==========================================
+# 1. C e C++ 
+# ==========================================
+# Arquivos objetos e compilados
+*.o
+*.out
+*.exe
+*.so
+*.dll
+*.a
+
+# Ignorar todos os executáveis gerados na pasta bin/
+bin/*
+!bin/.gitkeep
+
+# ==========================================
+# 2. Python 
+# ==========================================
+# Arquivos de cache e bytecode compilado pelo Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambientes virtuais 
+venv/
+env/
+.venv/
+
+# ==========================================
+# 3. Ferramentas, IDEs e SO
+# ==========================================
+# Configurações de workspace do VS Code e do IntelliJ
+.vscode/
+.idea/
+
+# Arquivos temporários comuns em distribuições Linux (como Fedora ou Mint)
+*~
+*.swp
+
+# Arquivos de sistema do Windows e macOS
+Thumbs.db
+.DS_Store
+
+# ==========================================
+# 4. Dados do Projeto
+# ==========================================
+
+data/*_ordenados*.txt

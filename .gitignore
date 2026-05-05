@@ -1,7 +1,7 @@
 # ==========================================
 # 1. C e C++ 
 # ==========================================
-# Arquivos objetos e compilados
+# Arquivos objetos e compilados genéricos
 *.o
 *.out
 *.exe
@@ -10,8 +10,8 @@
 *.a
 
 # Ignorar todos os executáveis gerados na pasta bin/
-bin/*
-!bin/.gitkeep
+src/bin/*
+!src/bin/.gitkeep
 
 # ==========================================
 # 2. Python 
@@ -44,5 +44,5 @@ Thumbs.db
 # ==========================================
 # 4. Dados do Projeto
 # ==========================================
-
+# Ignora arquivos de saída gerados pela ordenação
 data/*_ordenados*.txt

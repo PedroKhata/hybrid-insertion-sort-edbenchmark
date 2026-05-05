@@ -7,14 +7,16 @@ import os
 
 console = Console(force_terminal=True)
 
-COR_VERDE = "bold green"
+COR_VERDE = "green"
 COR_BRANCA = "white"
 COR_CINZA = "dim white"
 
 def limpar_tela():
+    """### Limpa a tela do terminal independente do SO"""
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def mostrar_menu():
+    """### Menu principal"""
     limpar_tela()
     
     ascii_art = f"""[{COR_VERDE}]
@@ -24,12 +26,12 @@ def mostrar_menu():
 [/{COR_VERDE}]"""
     
     menu_opcoes = f"""
-[{COR_VERDE}]1.[/{COR_VERDE}] [{COR_BRANCA}]Carregar dados de arquivo txt[/{COR_BRANCA}]
-[{COR_VERDE}]2.[/{COR_VERDE}] [{COR_BRANCA}]Executar ordenação[/{COR_BRANCA}]
-[{COR_VERDE}]3.[/{COR_VERDE}] [{COR_BRANCA}]Listar originais[/{COR_BRANCA}]
-[{COR_VERDE}]4.[/{COR_VERDE}] [{COR_BRANCA}]Listar ordenados[/{COR_BRANCA}]
-[{COR_VERDE}]5.[/{COR_VERDE}] [{COR_BRANCA}]Ver Estatísticas[/{COR_BRANCA}]
-[{COR_CINZA}]0. Sair[/{COR_CINZA}]"""
+[{COR_VERDE}]> 1.[/{COR_VERDE}] [{COR_BRANCA}]Carregar dados de arquivo .txt[/{COR_BRANCA}]
+[{COR_VERDE}]> 2.[/{COR_VERDE}] [{COR_BRANCA}]Executar ordenação[/{COR_BRANCA}]
+[{COR_VERDE}]> 3.[/{COR_VERDE}] [{COR_BRANCA}]Listar originais[/{COR_BRANCA}]
+[{COR_VERDE}]> 4.[/{COR_VERDE}] [{COR_BRANCA}]Listar ordenados[/{COR_BRANCA}]
+[{COR_VERDE}]> 5.[/{COR_VERDE}] [{COR_BRANCA}]Ver Estatísticas[/{COR_BRANCA}]
+[{COR_CINZA}]> 0. Sair[/{COR_CINZA}]"""
 
     conteudo_painel = (
         f"{ascii_art}\n"
@@ -56,7 +58,8 @@ def mostrar_menu():
     return escolha
 
 def mostrar_painel_mensagem(mensagem, cor="bold green"):
-    """Envelopa as mensagens do main em um painel à esquerda."""
+    """Mostra mensagens em um painel"""
+    
     painel = Panel(
         f"[{cor}]{mensagem}[/{cor}]",
         box=box.SQUARE,
@@ -67,11 +70,15 @@ def mostrar_painel_mensagem(mensagem, cor="bold green"):
     console.print(painel)
 
 def aguardar_enter():
-    """Pausa simples e encostada na margem"""
+    """Pausa simples"""
     console.print()
     Prompt.ask(f"[{COR_CINZA}]Pressione Enter para voltar ao menu[/{COR_CINZA}]")
 
-def mostrar_estatisticas_teste(tamanho_base, tempo_python, tempo_cpp):
+def mostrar_estatisticas(tamanho_base: int, execucoes: int, tempo_python: float, tempo_cpp: float) -> None:
+    """
+    ### Exibe um painel formatado no terminal com as estatísticas de performance
+    - Compara as execuções em Python e C++
+    """
     limpar_tela()
     
     titulo = f"[{COR_VERDE}]RESULTADOS DA ORDENAÇÃO[/{COR_VERDE}]"
@@ -79,36 +86,39 @@ def mostrar_estatisticas_teste(tamanho_base, tempo_python, tempo_cpp):
     
     tabela.add_column("Métrica", justify="left", style=COR_CINZA)
     tabela.add_column("Valor", justify="left", style=COR_BRANCA)
+    
+    # Isso evita o erro de "Divisão por Zero" e garante que o gráfico seja desenhado
+    tempo_cpp_seguro = max(tempo_cpp, 0.000001)
+    tempo_py_seguro = max(tempo_python, 0.000001)
 
-    if tempo_cpp > 0 and tempo_python > 0:
-        if tempo_python > tempo_cpp:
-            mais_rapido = "C++"
-            fator = tempo_python / tempo_cpp
-            blocos_py = 40
-            blocos_cpp = max(1, int(40 * (tempo_cpp / tempo_python)))
-        else:
-            mais_rapido = "Python"
-            fator = tempo_cpp / tempo_python
-            blocos_cpp = 40
-            blocos_py = max(1, int(40 * (tempo_python / tempo_cpp)))
+    # Tamanho máximo da barra 
+    MAX_BLOCOS = 40
+
+    # Cálculos para o gráfico
+    if tempo_py_seguro > tempo_cpp_seguro:
+        mais_rapido = "C++"
+        fator = tempo_py_seguro / tempo_cpp_seguro
+        blocos_py = MAX_BLOCOS
+        blocos_cpp = max(1, int(MAX_BLOCOS * (tempo_cpp_seguro / tempo_py_seguro)))
     else:
-        mais_rapido = "N/A"
-        fator = 0
-        blocos_py = 0
-        blocos_cpp = 0
+        mais_rapido = "Python"
+        fator = tempo_cpp_seguro / tempo_py_seguro
+        blocos_cpp = MAX_BLOCOS
+        blocos_py = max(1, int(MAX_BLOCOS * (tempo_py_seguro / tempo_cpp_seguro)))
 
     barra_py = "█" * blocos_py
     barra_cpp = "█" * blocos_cpp
     
     tabela.add_row("Base de dados", "nomes.txt")
     tabela.add_row("Tamanho", f"{tamanho_base} elementos")
+    tabela.add_row("Execuções", f"{execucoes}")
     tabela.add_row("", "") 
     
-    tabela.add_row("Tempo Python", f"[{COR_VERDE}]{tempo_python:.6f} s[/{COR_VERDE}]")
+    tabela.add_row("Tempo Python (Média)", f"[{COR_VERDE}]{tempo_python:.6f} s[/{COR_VERDE}]")
     tabela.add_row("Gráfico Python", f"[{COR_VERDE}]{barra_py}[/{COR_VERDE}]")
     tabela.add_row("", "") 
     
-    tabela.add_row("Tempo C++", f"[{COR_BRANCA}]{tempo_cpp:.6f} s[/{COR_BRANCA}]")
+    tabela.add_row("Tempo C++ (Média)", f"[{COR_BRANCA}]{tempo_cpp:.6f} s[/{COR_BRANCA}]")
     tabela.add_row("Gráfico C++", f"[{COR_BRANCA}]{barra_cpp}[/{COR_BRANCA}]")
     tabela.add_row("", "") 
     

@@ -1,9 +1,12 @@
-# ED.InsertionSort-H05
+# hybrid-insertion-sort-edbenchmark
 Aplicação híbrida (Python/C++) para análise de desempenho do algoritmo Insertion Sort (Listas Encadeadas)
 
 # Insertion Sort Híbrido: C++ & Python
 
 Este repositório contém a solução do nosso grupo para a Atividade 05 de Estruturas de Dados. O projeto implementa o algoritmo de ordenação **Insertion Sort** para processar e organizar uma base de dados de nomes.
+
+**Objetivo Principal:**
+Além da implementação correta do algoritmo, o objetivo central desta aplicação é realizar uma análise de desempenho comparativa rigorosa entre C++ e Python.
 
 Para unir alta performance computacional com uma excelente experiência de usuário, o sistema foi construído sob uma arquitetura híbrida:
 * **Backend (C++ & Python):** Responsável pelo processamento, executando o algoritmo de ordenação diretamente sobre uma **Lista Encadeada**.
@@ -16,9 +19,6 @@ Como a aplicação compila o código C++ dinamicamente através do Python, o seu
 1. **Python 3.8+**
 2. **Compilador g++** (GNU Compiler Collection)
 3. Biblioteca Python `rich` para a interface gráfica no terminal
-
-**Objetivo Principal:**
-Além da implementação correta do algoritmo de inserção, o objetivo central desta aplicação é realizar uma análise de desempenho comparativa rigorosa.
 
 ## Como Executar
 

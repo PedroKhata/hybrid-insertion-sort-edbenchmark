@@ -43,7 +43,7 @@ python main.py
 ## Estrutura do Projeto
 
 ```text
-📦 ED.InsertionSort-H05
+📦 hybrid-insertion-sort
  ┣ 📂 data                 
  ┃ ┣ 📜 nomes.txt            # Base de dados original (Entrada)
  ┃ ┗ 📜 nomes_ordenados.txt  # Gerado automaticamente após a execução

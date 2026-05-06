@@ -1,4 +1,4 @@
-# hybrid-insertion-sort-edbenchmark
+# hybrid-insertion-sort
 Aplicação híbrida (Python/C++) para análise de desempenho do algoritmo Insertion Sort (Listas Encadeadas)
 
 # Insertion Sort Híbrido: C++ & Python
@@ -24,8 +24,8 @@ Como a aplicação compila o código C++ dinamicamente através do Python, o seu
 
 **1. Clone o repositório**
 ```bash
-git clone (https://github.com/user/hybrid-insertion-sort-edbenchmark.git)
-cd hybrid-insertion-sort-edbenchmark
+git clone (https://github.com/user/hybrid-insertion-sort.git)
+cd hybrid-insertion-sort
 ```
 
 **2. Instale as dependências da interface**

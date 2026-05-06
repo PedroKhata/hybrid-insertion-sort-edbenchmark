@@ -12,24 +12,24 @@ class ListaEncadeada:
     """
     def __init__(self):
         self.inicio = None
+        self.fim = None  # Ponteiro de cauda para otimizar inserções
         self.tamanho = 0
 
     def adicionar(self, nome):
         """
-        ### Adiciona um novo nó ao final da lista encadeada
+        ### Adiciona um novo nó ao final da lista encadeada instantaneamente
         """
         novo = Node(nome)
          
-        if self.tamanho == 0:
+        # Se a lista estiver vazia, o início e o fim apontam para o novo nó
+        if self.inicio is None:
             self.inicio = novo
-            self.tamanho += 1
-            return
-        
-        atual = self.inicio
-        while atual.prox:
-            atual = atual.prox
-
-        atual.prox = novo
+            self.fim = novo
+        else:
+            # Pula direto para o fim usando o ponteiro de cauda
+            self.fim.prox = novo
+            self.fim = novo
+            
         self.tamanho += 1
     
     def inserir_ordenado(self, other, nome: str):
@@ -40,6 +40,7 @@ class ListaEncadeada:
 
         if other.inicio is None:
             other.inicio = novo
+            other.fim = novo # Mantém a integridade da cauda na nova lista
             other.tamanho += 1
             return
 
@@ -55,6 +56,11 @@ class ListaEncadeada:
         
         novo.prox = atual.prox
         atual.prox = novo   
+        
+        # Se o elemento foi inserido no finalzinho, atualiza a cauda
+        if novo.prox is None:
+            other.fim = novo
+            
         other.tamanho += 1
         
     def insertionSort(self):
@@ -70,7 +76,8 @@ class ListaEncadeada:
         return ordenada
 
     def arquivo(self, nome_arquivo):
-        with open(nome_arquivo, "r") as f:
+        # Força o uso de UTF-8 para não dar erro de leitura no Windows
+        with open(nome_arquivo, "r", encoding="utf-8") as f:
             for linha in f:
                 nome = linha.strip()
                 self.adicionar(nome)
@@ -92,4 +99,4 @@ class ListaEncadeada:
             atual = self.inicio
             while atual:
                 f.write(f"{atual.nome}\n")
-                atual = atual.prox
+                atual = atual.prox 

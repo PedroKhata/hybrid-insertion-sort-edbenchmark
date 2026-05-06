@@ -71,8 +71,13 @@ def mostrar_painel_mensagem(mensagem, cor="bold green"):
 
 def aguardar_enter():
     """Pausa simples"""
-    console.print()
-    Prompt.ask(f"[{COR_CINZA}]Pressione Enter para voltar ao menu[/{COR_CINZA}]")
+    try:
+        Prompt.ask(f"[{COR_CINZA}]Pressione Enter para voltar ao menu[/{COR_CINZA}]")
+    except KeyboardInterrupt:
+        # Se o usuário apertar Ctrl+C ou houver lixo no buffer do Windows, 
+        # o programa ignora o erro silenciosamente e volta para o menu normal.
+        print("\n")
+        pass
 
 def mostrar_estatisticas(tamanho_base: int, execucoes: int, tempo_python: float, tempo_cpp: float) -> None:
     """

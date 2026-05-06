@@ -11,7 +11,9 @@ def executar_cpp(path_arquivo):
     diretorio_atual = os.path.dirname(os.path.abspath(__file__))
     dir_cpp = os.path.abspath(os.path.join(diretorio_atual, "..", "cpp"))
     bin_dir = os.path.abspath(os.path.join(diretorio_atual, "..", "bin"))
-    executavel_cpp = os.path.join(bin_dir, "engine_sort")
+    extensao = ".exe" if os.name == "nt" else ""
+    cpp_exe_relativo = f"../bin/engine_sort{extensao}"
+    executavel_cpp = os.path.join(bin_dir, f"engine_sort{extensao}")
     os.makedirs(bin_dir, exist_ok=True)
 
     try:
@@ -19,10 +21,10 @@ def executar_cpp(path_arquivo):
             "g++", 
             os.path.join(dir_cpp, "main.cpp"), 
             os.path.join(dir_cpp, "LinkedList.cpp"), 
-            "-o", executavel_cpp,
+            "-o", cpp_exe_relativo,
             # -O3 garante otimizacao de performance pelo g++
             "-O3"
-        ], check=True, capture_output=True, text=True)
+        ], cwd=dir_cpp, check=True, capture_output=True, text=True)
         
         resultado_cpp = subprocess.run(
             [executavel_cpp, path_arquivo], 
